@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 const firebaseApiKey = process.env.REACT_APP_FIREBASE_API_KEY;
 const firebaseAppId = process.env.REACT_APP_FIREBASE_APP_ID;
