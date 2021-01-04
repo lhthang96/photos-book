@@ -29,6 +29,27 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+    
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyCO0vE1d5427CzfOdxLQdMKSr2ZSPJ3IxE",
+        authDomain: "photos-book-d0cc9.firebaseapp.com",
+        databaseURL: "https://photos-book-d0cc9-default-rtdb.firebaseio.com",
+        projectId: "photos-book-d0cc9",
+        storageBucket: "photos-book-d0cc9.appspot.com",
+        messagingSenderId: "514288795387",
+        appId: "1:514288795387:web:6e04b81e8da0849cf3ba5e"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
