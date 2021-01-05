@@ -1,9 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import firebase from "firebase/app";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import firebase from 'firebase/app';
+import { BrowserRouter } from 'react-router-dom';
 
 const firebaseApiKey = process.env.REACT_APP_FIREBASE_API_KEY;
 const firebaseAppId = process.env.REACT_APP_FIREBASE_APP_ID;
@@ -24,9 +25,11 @@ firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

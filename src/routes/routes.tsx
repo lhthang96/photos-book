@@ -1,13 +1,13 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { DevData, DevUI, Home } from '../pages';
+import { Login } from '../pages/Login/Login';
 
 export const AppRoutes: React.FC = () => (
-  <BrowserRouter>
-    <Switch>
-      <Route path="/dev-data" component={DevData} />
-      <Route path="/dev-ui" component={DevUI} />
-      <Route path="/" component={Home} />
-    </Switch>
-  </BrowserRouter>
+  <Switch>
+    <Route path="/dev-data" component={DevData} />
+    <Route path="/dev-ui" component={DevUI} />
+    <Route path="/login" component={Login} />
+    <Route path="/" component={Home} />
+  </Switch>
 );
