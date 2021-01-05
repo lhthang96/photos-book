@@ -1,5 +1,9 @@
-import React from "react";
+import React from 'react';
+import 'firebase/storage';
+import 'antd/dist/antd.css';
 
-const App: React.FC = () => <div />;
+import { AppRoutes } from './routes';
+
+const App: React.FC = () => <AppRoutes />;
 
 export default App;
