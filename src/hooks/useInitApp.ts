@@ -5,17 +5,11 @@ import { useHistory } from 'react-router-dom';
 export const useInitApp = (): void => {
   const history = useHistory();
 
-  const onCheckUserSignedIn = (): void => {
-    if (!history) return;
-
-    const user = firebase.auth().currentUser;
-
-    if (!user) {
-      history.push('/login');
-    }
-  };
-
   useEffect(() => {
-    onCheckUserSignedIn();
-  }, [history]);
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        history.push('/login');
+      }
+    });
+  }, []);
 };

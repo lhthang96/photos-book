@@ -8,20 +8,10 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState('lhthang96@gmail.com');
   const [password, setPassword] = useState('864859123');
 
-  useEffect(() => {
-    const user = firebase.auth().currentUser;
-
-    if (user) {
-      history.push('/');
-    }
-  }, []);
-
   const onSignIn = async (): Promise<void> => {
     try {
-      const result = await firebase
-        .auth()
-        .signInWithEmailAndPassword(email, password);
-      console.log('log result : ', result);
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      history.push('/');
     } catch (error) {
       console.log('Login Page -> onSignIn -> error ', error);
     }
