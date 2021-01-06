@@ -1,17 +1,22 @@
 import { Input, DatePicker, Form, Button } from 'antd';
 import React from 'react';
+import moment from 'moment';
 import { postStory } from '../../services';
 import { StyledDevData, StyledPostStoryForm } from './DevData.styles';
+import { IPostDiaryData } from '../../common/interfaces';
 
 const { TextArea } = Input;
 
 export const DevData: React.FC = () => {
   const onFinishForm = async (formValues: any): Promise<void> => {
-    console.log('log form values : ', formValues);
+    const postDiary: IPostDiaryData = {
+      title: formValues.title,
+      content: formValues.content,
+      date: moment(formValues.date).toISOString(),
+    };
 
     try {
-      const result = await postStory(formValues);
-      console.log('log result : ', result);
+      await postStory(postDiary);
     } catch (error) {
       console.log('log error : ', error);
     }

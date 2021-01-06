@@ -8,7 +8,7 @@ export type IPhoto = {
 
 export type IDailyStory = {
   id: string;
-  date: Date;
+  date: string;
   isPrivate: boolean;
   title?: string;
   content?: (string | IPhoto)[];
