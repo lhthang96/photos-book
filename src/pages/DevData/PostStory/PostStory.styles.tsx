@@ -1,7 +1,7 @@
 import { Form } from 'antd';
 import styled from 'styled-components';
 
-export const StyledDevData = styled.main`
+export const StyledPostStory = styled.main`
   width: 100%;
   height: 100vh;
   overflow: hidden;

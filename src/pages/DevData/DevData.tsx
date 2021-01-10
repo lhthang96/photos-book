@@ -1,54 +1,63 @@
-import { Input, DatePicker, Form, Button } from 'antd';
-import React from 'react';
-import moment from 'moment';
-import { dbPushStory } from '../../services/database';
-import { StyledDevData, StyledPostStoryForm } from './DevData.styles';
-import { PostStoryPayload } from '../../common/interfaces';
-import { getCurrentUser } from '../../common/utils';
-
-const { TextArea } = Input;
+import React, { ReactElement, useState } from 'react';
+import Sider from 'antd/lib/layout/Sider';
+import Layout, { Content } from 'antd/lib/layout/layout';
+import { Menu } from 'antd';
+import PieChartOutlined from '@ant-design/icons/lib/icons/PieChartOutlined';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import { PostStory } from './PostStory';
 
 export const DevData: React.FC = () => {
-  const onFinishForm = async (formValues: any): Promise<void> => {
-    const currentUser = getCurrentUser();
-    if (!currentUser) return;
+  const history = useHistory();
+  const [collapsed, setCollapsed] = useState(false);
 
-    const newDiary: PostStoryPayload = {
-      uid: currentUser.uid,
-      title: formValues.title,
-      isPrivate: false,
-      date: moment(formValues.date).toISOString()
-    };
+  const onCollapse = (): void => setCollapsed((val) => !val);
 
-    try {
-      await dbPushStory(newDiary);
-    } catch (error) {
-      console.log('log error : ', error);
-    }
+  const goToPath = (path: string): void => {
+    history.push(path);
   };
 
+  const menuItems = [
+    {
+      key: 'post-story',
+      path: '/dev-data/post-story',
+      title: 'Post story',
+      Icon: PieChartOutlined
+    },
+    {
+      key: 'get-story',
+      path: '/dev-data/get-story',
+      title: 'Get story',
+      Icon: PieChartOutlined
+    }
+  ];
+
+  const renderSidebarMenu = (): ReactElement[] =>
+    menuItems.map((item) => {
+      const { key, title, path, Icon } = item;
+
+      return (
+        <Menu.Item key={key} icon={<Icon />} onClick={() => goToPath(path)}>
+          {title}
+        </Menu.Item>
+      );
+    });
+
   return (
-    <StyledDevData>
-      <StyledPostStoryForm onFinish={onFinishForm}>
-        <Form.Item name="date">
-          <DatePicker style={{ marginBottom: 24 }} />
-        </Form.Item>
-
-        <Form.Item name="title">
-          <Input placeholder="Diary title" style={{ marginBottom: 24 }} />
-        </Form.Item>
-
-        <Form.Item name="content">
-          <TextArea
-            autoSize={{ minRows: 4, maxRows: 8 }}
-            style={{ marginBottom: 24 }}
-          />
-        </Form.Item>
-
-        <Button type="primary" htmlType="submit">
-          Post
-        </Button>
-      </StyledPostStoryForm>
-    </StyledDevData>
+    <Layout style={{ minHeight: '100vh' }}>
+      <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
+        <div className="logo" />
+        <Menu theme="dark" mode="inline">
+          {renderSidebarMenu()}
+        </Menu>
+      </Sider>
+      <Layout className="site-layout">
+        <Content style={{ margin: '0 16px' }}>
+          <Switch>
+            <Route path="/dev-data/post-story" component={PostStory} />
+            <Route path="/dev-data" component={() => <div>Dev data</div>} />
+          </Switch>
+        </Content>
+      </Layout>
+    </Layout>
   );
 };

@@ -1,14 +1,17 @@
-import { Input, DatePicker, Form, Button } from 'antd';
+import { Input, DatePicker, Form, Button, message } from 'antd';
 import React from 'react';
 import moment from 'moment';
 import { dbPushStory } from 'src/services/database';
-import { StyledDevData, StyledPostStoryForm } from './PostStory.styles';
+import { StyledPostStory, StyledPostStoryForm } from './PostStory.styles';
 import { PostStoryPayload } from 'src/common/interfaces';
 import { getCurrentUser } from 'src/common/utils';
+import { useHistory } from 'react-router-dom';
 
 const { TextArea } = Input;
 
 export const PostStory: React.FC = () => {
+  const history = useHistory();
+
   const onFinishForm = async (formValues: any): Promise<void> => {
     const currentUser = getCurrentUser();
     if (!currentUser) return;
@@ -22,13 +25,16 @@ export const PostStory: React.FC = () => {
 
     try {
       await dbPushStory(newDiary);
+
+      message.success('Post story successfully !', 2);
+      history.push('/dev-data/get-story');
     } catch (error) {
       console.log('log error : ', error);
     }
   };
 
   return (
-    <StyledDevData>
+    <StyledPostStory>
       <StyledPostStoryForm onFinish={onFinishForm}>
         <Form.Item name="date">
           <DatePicker style={{ marginBottom: 24 }} />
@@ -49,6 +55,6 @@ export const PostStory: React.FC = () => {
           Post
         </Button>
       </StyledPostStoryForm>
-    </StyledDevData>
+    </StyledPostStory>
   );
 };
