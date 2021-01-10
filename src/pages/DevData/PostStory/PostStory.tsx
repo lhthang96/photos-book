@@ -17,7 +17,7 @@ export const PostStory: React.FC = () => {
     const currentUser = getCurrentUser();
     if (!currentUser) return;
 
-    const newDiary: PostStoryPayload = {
+    const newStory: PostStoryPayload = {
       uid: currentUser.uid,
       title: formValues.title,
       isPrivate: false,
@@ -25,7 +25,8 @@ export const PostStory: React.FC = () => {
     };
 
     try {
-      await dbPushStory(newDiary);
+      const storyKey = await dbPushStory(newStory);
+      console.log('log story key : ', storyKey);
 
       message.success('Post story successfully !', 2);
       history.push(DevDataPaths.GetStory);
