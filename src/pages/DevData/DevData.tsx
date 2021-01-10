@@ -5,6 +5,7 @@ import { Menu } from 'antd';
 import PieChartOutlined from '@ant-design/icons/lib/icons/PieChartOutlined';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { PostStory } from './PostStory';
+import { GetStory } from './GetStory';
 
 export const DevData: React.FC = () => {
   const history = useHistory();
@@ -54,6 +55,7 @@ export const DevData: React.FC = () => {
         <Content style={{ margin: '0 16px' }}>
           <Switch>
             <Route path="/dev-data/post-story" component={PostStory} />
+            <Route path="/dev-data/get-story" component={GetStory} />
             <Route path="/dev-data" component={() => <div>Dev data</div>} />
           </Switch>
         </Content>
