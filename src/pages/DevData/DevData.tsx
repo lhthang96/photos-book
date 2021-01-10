@@ -1,22 +1,27 @@
 import { Input, DatePicker, Form, Button } from 'antd';
 import React from 'react';
 import moment from 'moment';
-import { postStory } from '../../services';
+import { dbPushStory } from '../../services/database';
 import { StyledDevData, StyledPostStoryForm } from './DevData.styles';
-import { IPostDiaryData } from '../../common/interfaces';
+import { PostStoryPayload } from '../../common/interfaces';
+import { getCurrentUser } from '../../common/utils';
 
 const { TextArea } = Input;
 
 export const DevData: React.FC = () => {
   const onFinishForm = async (formValues: any): Promise<void> => {
-    const postDiary: IPostDiaryData = {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
+
+    const newDiary: PostStoryPayload = {
+      uid: currentUser.uid,
       title: formValues.title,
-      content: formValues.content,
-      date: moment(formValues.date).toISOString(),
+      isPrivate: false,
+      date: moment(formValues.date).toISOString()
     };
 
     try {
-      await postStory(postDiary);
+      await dbPushStory(newDiary);
     } catch (error) {
       console.log('log error : ', error);
     }
@@ -34,7 +39,10 @@ export const DevData: React.FC = () => {
         </Form.Item>
 
         <Form.Item name="content">
-          <TextArea rows={12} style={{ marginBottom: 24 }} />
+          <TextArea
+            autoSize={{ minRows: 4, maxRows: 8 }}
+            style={{ marginBottom: 24 }}
+          />
         </Form.Item>
 
         <Button type="primary" htmlType="submit">

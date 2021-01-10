@@ -10,11 +10,12 @@ Authenticated user:
 
 - Posting a story of a day with title, content with both paragraph and photos.
 - The UI idea is a book contains all the stories, content is shown as pages of the book.
+- Paragraph content supports rich text (bold, italic, list, ...) - `optional`
 
 Non-authenticated user:
 
 - Can only read non-private stories.
-- Can post story in trial mode. (Optional)
+- Can post story in trial mode. - `optional`
 
 ### Stacks
 
