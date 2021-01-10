@@ -2,10 +2,13 @@ import React, { ReactElement, useState } from 'react';
 import Sider from 'antd/lib/layout/Sider';
 import Layout, { Content } from 'antd/lib/layout/layout';
 import { Menu } from 'antd';
-import PieChartOutlined from '@ant-design/icons/lib/icons/PieChartOutlined';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { PostStory } from './PostStory';
 import { GetStory } from './GetStory';
+import { AppPaths, DevDataPaths } from 'src/common/constants';
+import UploadOutlined from '@ant-design/icons/lib/icons/UploadOutlined';
+import EyeOutlined from '@ant-design/icons/lib/icons/EyeOutlined';
+import HomeOutlined from '@ant-design/icons/lib/icons/HomeOutlined';
 
 export const DevData: React.FC = () => {
   const history = useHistory();
@@ -19,16 +22,22 @@ export const DevData: React.FC = () => {
 
   const menuItems = [
     {
-      key: 'post-story',
-      path: '/dev-data/post-story',
+      key: DevDataPaths.PostStory,
+      path: DevDataPaths.PostStory,
       title: 'Post story',
-      Icon: PieChartOutlined
+      Icon: UploadOutlined
     },
     {
-      key: 'get-story',
-      path: '/dev-data/get-story',
+      key: DevDataPaths.GetStory,
+      path: DevDataPaths.GetStory,
       title: 'Get story',
-      Icon: PieChartOutlined
+      Icon: EyeOutlined
+    },
+    {
+      key: AppPaths.Home,
+      path: AppPaths.Home,
+      title: 'Home',
+      Icon: HomeOutlined
     }
   ];
 
@@ -54,9 +63,12 @@ export const DevData: React.FC = () => {
       <Layout className="site-layout">
         <Content style={{ margin: '0 16px' }}>
           <Switch>
-            <Route path="/dev-data/post-story" component={PostStory} />
-            <Route path="/dev-data/get-story" component={GetStory} />
-            <Route path="/dev-data" component={() => <div>Dev data</div>} />
+            <Route path={DevDataPaths.PostStory} component={PostStory} />
+            <Route path={DevDataPaths.GetStory} component={GetStory} />
+            <Route
+              path={DevDataPaths.Base}
+              component={() => <div>Dev data</div>}
+            />
           </Switch>
         </Content>
       </Layout>

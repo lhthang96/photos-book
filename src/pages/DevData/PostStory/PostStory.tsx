@@ -6,6 +6,7 @@ import { StyledPostStory, StyledPostStoryForm } from './PostStory.styles';
 import { PostStoryPayload } from 'src/common/interfaces';
 import { getCurrentUser } from 'src/common/utils';
 import { useHistory } from 'react-router-dom';
+import { DevDataPaths } from 'src/common/constants';
 
 const { TextArea } = Input;
 
@@ -27,7 +28,7 @@ export const PostStory: React.FC = () => {
       await dbPushStory(newDiary);
 
       message.success('Post story successfully !', 2);
-      history.push('/dev-data/get-story');
+      history.push(DevDataPaths.GetStory);
     } catch (error) {
       console.log('log error : ', error);
     }
