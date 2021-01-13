@@ -15,6 +15,7 @@ export const PostStory: React.FC = () => {
 
   const onFinishForm = async (formValues: any): Promise<void> => {
     const currentUser = getCurrentUser();
+
     if (!currentUser) return;
 
     const newStory: PostStoryPayload = {

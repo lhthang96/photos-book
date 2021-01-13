@@ -6,6 +6,7 @@ export const dbPushStory = async (
   payload: PostStoryPayload
 ): Promise<string | undefined> => {
   const storyKey = firebase.database().ref(DatabaseRef.Story).push().key;
+
   if (!storyKey) return undefined;
 
   await firebase.database().ref(DatabaseRef.Story).child(storyKey).set(payload);

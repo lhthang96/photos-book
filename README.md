@@ -32,3 +32,36 @@ Practicing skills set:
 - A process to build an entire react apps.
 - Advanced CSS3 to build an elegant UI.
 - Working with `firebase` services.
+
+## Data structure
+
+### Interfaces
+
+- `User`: Firebase `User` interface.
+
+- `Book`:
+
+  - **id: string** - book entity identifier.
+  - **cover: BookContent** - book cover image url.
+  - **backPage: BookContent** - content displaying on the book back page
+  - **bindingText?: BookContent** - text displaying on book binding
+  - **chapters: BookChapter[]** - book inside chapters.
+
+- `BookChapter`:
+
+  - **id: string** - chapter entity identifier.
+  - **title?: string** - chapter title.
+  - **stories: BookStory** - chapter inside stories.
+
+- `BookStory`:
+
+```typescript
+export interface Story {
+  id: string; // story entity identifier
+  uid: string; // user id
+  date: string; // story's date
+  isPrivate: boolean; // only owner can read ?
+
+  title?: string; // story title
+}
+```
