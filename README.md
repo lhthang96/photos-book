@@ -41,19 +41,27 @@ Practicing skills set:
 
 - `Book`:
 
-  - **id: string** - book entity identifier.
-  - **cover: BookContent** - book cover image url.
-  - **backPage: BookContent** - content displaying on the book back page
-  - **bindingText?: BookContent** - text displaying on book binding
-  - **chapters: BookChapter[]** - book inside chapters.
+```typescript
+export interface Book {
+  id: string; // Book entity identifier
+  cover: BookContent; // content displaying on the book cover
+  backPage: BookContent; // content displaying on the book back page
+  binding: BookContent; // content displaying on book binding
+  chapters: Chapter[]; // book inside chapters.
+}
+```
 
-- `BookChapter`:
+- `Chapter`:
 
-  - **id: string** - chapter entity identifier.
-  - **title?: string** - chapter title.
-  - **stories: BookStory** - chapter inside stories.
+```typescript
+export interface Chapter {
+  id: string; // chapter entity identifier
+  title?: string; // chapter title
+  stories: Story[]; // chapter inside stories
+}
+```
 
-- `BookStory`:
+- `Story`:
 
 ```typescript
 export interface Story {
@@ -63,5 +71,51 @@ export interface Story {
   isPrivate: boolean; // only owner can read ?
 
   title?: string; // story title
+}
+```
+
+- `BookContent`:
+
+```typescript
+export interface BookContent {
+  id: string; // book content entity identifier
+  storyId: string; // linked story id
+  content: (BookContentPhotos | BookContentParagraph)[];
+}
+```
+
+- `BookContentParagraph` & `BookContentPhotos`:
+
+```typescript
+export enum ContentType {
+  Paragraph = 'paragraph',
+  Photos = 'photos'
+}
+
+export interface BookContentParagraph {
+  id: string; // book content paragraph entity identifier
+  bookContentId: string; // linked book content id
+  type: ContentType.Paragraph; // content type
+  order: number; // content order in book content, used for story content displaying in right position
+  paragraph: string; // book content paragraph
+}
+
+export interface BookContentPhotos {
+  id: string; // book content photos entity identifier
+  bookContentId: string; // linked book content id
+  type: ContentType.Photos; // content type
+  order: number; // content order in book content, used for story content displaying in right position
+  photos: Photo[]; // book content photos
+
+  title?: string; // book content photos title
+  description?: string; // book content photos description
+}
+
+export interface Photo {
+  id: string; // photo entity identifier
+  storageRef: string; // firebase storage ref storing photo file
+
+  title?: string; // photo title
+  description?: string; // photo description
 }
 ```

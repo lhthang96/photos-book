@@ -1,4 +1,4 @@
 export enum DatabaseRef {
   Story = '/story',
-  StoryContent = '/story-content'
+  BookContent = '/story-content'
 }
