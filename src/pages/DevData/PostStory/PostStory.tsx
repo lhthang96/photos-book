@@ -6,6 +6,7 @@ import { StyledPostStory, StyledPostStoryForm } from './PostStory.styles';
 import { PostStoryPayload } from 'src/common/interfaces';
 import { getCurrentUser } from 'src/common/utils';
 import { useHistory } from 'react-router-dom';
+import { DevDataPaths } from 'src/common/constants';
 
 const { TextArea } = Input;
 
@@ -14,9 +15,10 @@ export const PostStory: React.FC = () => {
 
   const onFinishForm = async (formValues: any): Promise<void> => {
     const currentUser = getCurrentUser();
+
     if (!currentUser) return;
 
-    const newDiary: PostStoryPayload = {
+    const newStory: PostStoryPayload = {
       uid: currentUser.uid,
       title: formValues.title,
       isPrivate: false,
@@ -24,10 +26,11 @@ export const PostStory: React.FC = () => {
     };
 
     try {
-      await dbPushStory(newDiary);
+      const storyKey = await dbPushStory(newStory);
+      console.log('log story key : ', storyKey);
 
       message.success('Post story successfully !', 2);
-      history.push('/dev-data/get-story');
+      history.push(DevDataPaths.GetStory);
     } catch (error) {
       console.log('log error : ', error);
     }
