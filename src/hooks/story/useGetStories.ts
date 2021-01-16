@@ -12,7 +12,7 @@ type UseGetStoriesData = {
 
 export const useGetStories = (): UseGetStoriesData => {
   const [stories, setStories] = useState<Story[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     firebase
@@ -20,7 +20,10 @@ export const useGetStories = (): UseGetStoriesData => {
       .ref(DatabaseRef.Story)
       .on('value', (snapshot) => {
         setLoading(false);
-        if (!snapshot.exists()) return;
+        if (!snapshot.exists()) {
+          setStories([]);
+          return;
+        }
 
         const convertedStories = convertDatabaseJsonToArray(
           snapshot.val() as DBData<Story>

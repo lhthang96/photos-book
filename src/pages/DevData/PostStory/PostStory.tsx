@@ -1,4 +1,4 @@
-import { Input, DatePicker, Form, Button, message } from 'antd';
+import { Input, DatePicker, Form, Button, message, Checkbox } from 'antd';
 import React from 'react';
 import moment from 'moment';
 import { dbPushStory } from 'src/services/database';
@@ -21,7 +21,7 @@ export const PostStory: React.FC = () => {
     const newStory: PostStoryPayload = {
       uid: currentUser.uid,
       title: formValues.title,
-      isPrivate: false,
+      isPrivate: formValues.isPrivate,
       date: moment(formValues.date).toISOString()
     };
 
@@ -45,6 +45,10 @@ export const PostStory: React.FC = () => {
 
         <Form.Item name="title">
           <Input placeholder="Diary title" style={{ marginBottom: 24 }} />
+        </Form.Item>
+
+        <Form.Item name="isPrivate" valuePropName="checked">
+          <Checkbox>Is private</Checkbox>
         </Form.Item>
 
         <Form.Item name="content">

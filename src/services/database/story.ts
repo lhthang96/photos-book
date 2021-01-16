@@ -13,3 +13,11 @@ export const dbPushStory = async (
 
   return storyKey;
 };
+
+export const dbDeleteStory = async (storyId: string): Promise<void> => {
+  return await firebase
+    .database()
+    .ref(DatabaseRef.Story)
+    .child(storyId)
+    .remove();
+};

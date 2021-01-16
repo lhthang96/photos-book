@@ -5,7 +5,7 @@ export enum ContentType {
   Photos = 'photos'
 }
 
-export interface Photo {
+export type Photo = {
   id: string; // photo entity identifier
   storageRef: string; // firebase storage ref storing photo file
 
@@ -16,40 +16,40 @@ export interface Photo {
 
   title?: string; // photo title
   description?: string; // photo description
-}
+};
 
-export interface User extends firebase.User {}
+export type User = firebase.User;
 
-export interface Book {
+export type Book = {
   id: string; // Book entity identifier
   cover: BookContent; // content displaying on the book cover
   backPage: BookContent; // content displaying on the book back page
   binding: BookContent; // content displaying on book binding
   chapters: Chapter[]; // book inside chapters.
-}
+};
 
-export interface Chapter {
+export type Chapter = {
   id: string; // chapter entity identifier
   title?: string; // chapter title
   stories: Story[]; // chapter inside stories
-}
+};
 
-export interface Story {
+export type Story = {
   id: string; // story entity identifier
   uid: string; // user id
   date: string; // story's date
   isPrivate: boolean; // only owner can read ?
 
   title?: string; // story title
-}
+};
 
-export interface BookContent {
+export type BookContent = {
   id: string;
   storyId: string;
   content: (BookContentPhotos | BookContentParagraph)[];
-}
+};
 
-export interface BookContentParagraph {
+export type BookContentParagraph = {
   id: string; // book content paragraph entity identifier
   bookContentId: string; // linked book content id
   type: ContentType.Paragraph; // content type
@@ -65,9 +65,9 @@ export interface BookContentParagraph {
 
   // This solution is just an acceptable solution, because the formula assumes all character
   // have the same width
-}
+};
 
-export interface BookContentPhotos {
+export type BookContentPhotos = {
   id: string; // book content photos entity identifier
   bookContentId: string; // linked book content id
   type: ContentType.Photos; // content type
@@ -80,4 +80,4 @@ export interface BookContentPhotos {
 
   title?: string; // book content photos title
   description?: string; // book content photos description
-}
+};
