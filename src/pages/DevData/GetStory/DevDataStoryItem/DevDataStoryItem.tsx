@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Story } from 'src/common/interfaces';
+import { FullStory } from 'src/common/interfaces';
 import { StyledDevDataStoryItem } from './DevDataStoryItem.styles';
 import {
   CheckCircleTwoTone,
@@ -11,13 +11,13 @@ import { Button, message } from 'antd';
 import { dbDeleteStory } from 'src/services/database';
 
 type DevDataStoryItemProps = {
-  story: Story;
+  story: FullStory;
 };
 
 export const DevDataStoryItem: React.FC<DevDataStoryItemProps> = ({
   story
 }) => {
-  const { id, title, date, isPrivate } = story;
+  const { title, date, isPrivate, content } = story;
 
   const [deleteLoading, setDeleteLoading] = useState(false);
 
@@ -25,7 +25,7 @@ export const DevDataStoryItem: React.FC<DevDataStoryItemProps> = ({
     setDeleteLoading(true);
 
     try {
-      await dbDeleteStory(id);
+      await dbDeleteStory(story);
 
       message.success('Delete story successfully !', AntdMessageDuration);
     } catch (error) {
@@ -47,6 +47,10 @@ export const DevDataStoryItem: React.FC<DevDataStoryItemProps> = ({
           ) : (
             <CloseCircleTwoTone twoToneColor={AppColor.TwoToneError} />
           )}
+        </div>
+
+        <div className="book-content">
+          <p>{JSON.stringify(content)}</p>
         </div>
       </div>
 

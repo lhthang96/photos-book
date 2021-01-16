@@ -39,8 +39,13 @@ export type Story = {
   uid: string; // user id
   date: string; // story's date
   isPrivate: boolean; // only owner can read ?
+  bookContentId: string;
 
   title?: string; // story title
+};
+
+export type FullStory = Story & {
+  content: BookContent[];
 };
 
 export type BookContent = {

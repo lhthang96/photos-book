@@ -1,19 +1,37 @@
-import { Input, DatePicker, Form, Button, message, Checkbox } from 'antd';
-import React from 'react';
+import {
+  Input,
+  DatePicker,
+  Form,
+  Button,
+  message,
+  Checkbox,
+  Space,
+  Select
+} from 'antd';
+import React, { useState } from 'react';
 import moment from 'moment';
-import { dbPushStory } from 'src/services/database';
+import { dbPostStory } from 'src/services/database';
 import { StyledPostStory, StyledPostStoryForm } from './PostStory.styles';
-import { PostStoryPayload } from 'src/common/interfaces';
+import {
+  PostBookContentPayload,
+  PostStoryPayload
+} from 'src/common/interfaces';
 import { getCurrentUser } from 'src/common/utils';
 import { useHistory } from 'react-router-dom';
-import { DevDataPaths } from 'src/common/constants';
+import { AntdMessageDuration, DevDataPaths } from 'src/common/constants';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 
 export const PostStory: React.FC = () => {
   const history = useHistory();
 
-  const onFinishForm = async (formValues: any): Promise<void> => {
+  const [form] = Form.useForm();
+  const [formLoading, setFormLoading] = useState(false);
+
+  const onPostStory = async (formValues: any): Promise<void> => {
+    setFormLoading(true);
+
     const currentUser = getCurrentUser();
 
     if (!currentUser) return;
@@ -21,24 +39,29 @@ export const PostStory: React.FC = () => {
     const newStory: PostStoryPayload = {
       uid: currentUser.uid,
       title: formValues.title,
-      isPrivate: formValues.isPrivate,
+      isPrivate: formValues.isPrivate || false,
       date: moment(formValues.date).toISOString()
     };
 
-    try {
-      const storyKey = await dbPushStory(newStory);
-      console.log('log story key : ', storyKey);
+    const newBookContent: PostBookContentPayload = {
+      content: JSON.stringify(formValues.content)
+    };
 
-      message.success('Post story successfully !', 2);
+    try {
+      await dbPostStory(newStory, newBookContent);
+
+      message.success('Post story successfully !', AntdMessageDuration);
       history.push(DevDataPaths.GetStory);
     } catch (error) {
-      console.log('log error : ', error);
+      console.error('PostStory.tsx -> onPostStory -> error : ', error);
+    } finally {
+      setFormLoading(false);
     }
   };
 
   return (
     <StyledPostStory>
-      <StyledPostStoryForm onFinish={onFinishForm}>
+      <StyledPostStoryForm form={form} onFinish={onPostStory}>
         <Form.Item name="date">
           <DatePicker style={{ marginBottom: 24 }} />
         </Form.Item>
@@ -48,7 +71,7 @@ export const PostStory: React.FC = () => {
         </Form.Item>
 
         <Form.Item name="isPrivate" valuePropName="checked">
-          <Checkbox>Is private</Checkbox>
+          <Checkbox defaultChecked={false}>Is private</Checkbox>
         </Form.Item>
 
         <Form.Item name="content">
@@ -58,7 +81,7 @@ export const PostStory: React.FC = () => {
           />
         </Form.Item>
 
-        <Button type="primary" htmlType="submit">
+        <Button loading={formLoading} type="primary" htmlType="submit">
           Post
         </Button>
       </StyledPostStoryForm>
